@@ -13,14 +13,6 @@
 #include <Arduino.h>
 #define DS1307_I2C_ADDRESS 0x68
 
-#define MONDAY 		1
-#define TUESDAY 	2
-#define WEDNESDAY 	3
-#define THURSDAY 	4
-#define FRIDAY 		5
-#define SATURDAY 	6
-#define SUNDAY 		7
-
 class RTC
 {
 public:
