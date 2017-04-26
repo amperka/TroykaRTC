@@ -184,8 +184,9 @@ void RTC::set(uint8_t hour, uint8_t minute, uint8_t second, uint16_t day,
 }
 
 // write the hour that manually
-void RTC::setHour(uint8_t hour) {
+void RTC::setHour(int8_t hour) {
     _hour = hour;
+    parsingTime();
     Wire.beginTransmission(DS1307_I2C_ADDRESS);
     Wire.write((uint8_t)0x02);
     Wire.write(DecToBcd(_hour));
@@ -193,8 +194,9 @@ void RTC::setHour(uint8_t hour) {
 }
 
 // write the minute that manually
-void RTC::setMinute(uint8_t minute) {
+void RTC::setMinute(int8_t minute) {
     _minute = minute;
+    parsingTime();
     Wire.beginTransmission(DS1307_I2C_ADDRESS);
     Wire.write((uint8_t)0x01);
     Wire.write(DecToBcd(_minute));
@@ -202,8 +204,9 @@ void RTC::setMinute(uint8_t minute) {
 }
 
 // write the second that manually
-void RTC::setSecond(uint8_t second) {
+void RTC::setSecond(int8_t second) {
     _second = second;
+    parsingTime();
     Wire.beginTransmission(DS1307_I2C_ADDRESS);
     Wire.write((uint8_t)0x00);
     Wire.write(DecToBcd(_second));
@@ -348,6 +351,23 @@ void RTC::getWeekDayStr(char* output) const {
         output[i] = buff[i];
     }
     output[i] = '\0';
+}
+
+void RTC::parsingTime() {
+    if (_hour > 23)
+        _hour = 0;
+    else if (_hour < 0)
+        _hour = 23;
+
+    if (_minute > 59)
+        _minute = 0;
+    else if (_minute < 0)
+        _minute = 59;
+
+    if (_second > 59)
+        _second = 0;
+    else if (_second < 0)
+        _second = 59;
 }
 
 uint8_t RTC::DecToBcd(uint8_t val) {

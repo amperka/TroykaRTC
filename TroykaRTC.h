@@ -31,9 +31,9 @@ public:
     void set(const char *compileTimeStamp);
     void set(uint8_t hour, uint8_t minute, uint8_t second, uint16_t day,
         uint8_t month, uint8_t year, uint8_t weekDay);
-    void setHour(uint8_t hour);
-    void setMinute(uint8_t minute);
-    void setSecond(uint8_t second);
+    void setHour(int8_t hour);
+    void setMinute(int8_t minute);
+    void setSecond(int8_t second);
     void setDay(uint8_t day);
     void setMonth(uint8_t month);
     void setYear(uint8_t year);
@@ -50,13 +50,14 @@ public:
     uint8_t getDay() const { return _day; }
     uint8_t getMonth() const { return _month; }
     uint16_t getYear() const { return _year; }
-    uint8_t DecToBcd(uint8_t val);
-    uint8_t BcdToDec(uint8_t val);
 
 private:
-    uint8_t _second;
-    uint8_t _minute;
-    uint8_t _hour;
+    uint8_t DecToBcd(uint8_t val);
+    uint8_t BcdToDec(uint8_t val);
+    void parsingTime();
+    int8_t _second;
+    int8_t _minute;
+    int8_t _hour;
     uint8_t _weekDay;  // day of week, 1 = Monday
     uint8_t _day;
     uint8_t _month;
