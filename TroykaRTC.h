@@ -12,6 +12,8 @@
 
 #include <Arduino.h>
 
+#define SECONDS_FROM_1970_TO_2000 946684800
+
 #define DS1307_I2C_ADDRESS 0x68
 
 #define MONDAY      1
@@ -28,6 +30,7 @@ public:
     void begin();
     void start();
     void stop();
+    void read();
     void set(const char *compileTimeStamp);
     void set(uint8_t hour, uint8_t minute, uint8_t second, uint16_t day,
         uint8_t month, uint8_t year, uint8_t weekDay);
@@ -38,7 +41,6 @@ public:
     void setMonth(uint8_t month);
     void setYear(uint8_t year);
     void setWeekDay(uint8_t weekDay);
-    void read();
     void getTimeStamp(char* time, char* date, char* weekDay) const;
     void getTimeStr(char* output) const;
     void getDateStr(char* output) const;
@@ -50,11 +52,14 @@ public:
     uint8_t getDay() const { return _day; }
     uint8_t getMonth() const { return _month; }
     uint16_t getYear() const { return _year; }
+    uint32_t getUnixTime();
 
 private:
+	void parsingTime();
+	uint32_t dateToDays(uint32_t year, uint8_t month, uint8_t day);
+    uint32_t daysToSeconds(uint32_t days, uint8_t h, uint8_t m, uint8_t s);
     uint8_t DecToBcd(uint8_t val);
     uint8_t BcdToDec(uint8_t val);
-    void parsingTime();
     int8_t _second;
     int8_t _minute;
     int8_t _hour;

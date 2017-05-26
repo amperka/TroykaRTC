@@ -11,6 +11,8 @@
 #include <Wire.h>
 #include "TroykaRTC.h"
 
+const uint8_t daysArray [] PROGMEM = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+
 void RTC::begin() {
     Wire.begin();
 }
@@ -79,19 +81,19 @@ void RTC::set(const char* compileTimeStamp) {
         dow[i] =  compileTimeStamp[i];
     dow[i] = '\0';
 
-    if (strcmp(dow, "Mon") == 0)
+    if (!strcmp(dow, "Mon"))
         _weekDay = 1;
-    else if (strcmp(dow, "Tue") == 0)
+    else if (!strcmp(dow, "Tue"))
         _weekDay = 2;
-    else if (strcmp(dow, "Wed") == 0)
+    else if (!strcmp(dow, "Wed"))
         _weekDay = 3;
-    else if (strcmp(dow, "Thu") == 0)
+    else if (!strcmp(dow, "Thu"))
         _weekDay = 4;
-    else if (strcmp(dow, "Fri") == 0)
+    else if (!strcmp(dow, "Fri"))
         _weekDay = 5;
-    else if (strcmp(dow, "Sat") == 0)
+    else if (!strcmp(dow, "Sat"))
         _weekDay = 6;
-    else if (strcmp(dow, "Sun") == 0)
+    else if (!strcmp(dow, "Sun"))
         _weekDay = 7;
 
 /*--------------------------Day----------------------------*/
@@ -102,30 +104,29 @@ void RTC::set(const char* compileTimeStamp) {
     for (i = 0; i < 3; i++)
         month[i] = compileTimeStamp[i + 4];
     month[i] = '\0';
-
-    if (strcmp(month, "Jan"))
+    if (!strcmp(month, "Jan"))
         _month = 1;
-    else if (strcmp(month, "Feb"))
+    else if (!strcmp(month, "Feb"))
         _month = 2;
-    else if (strcmp(month, "Mar"))
+    else if (!strcmp(month, "Mar"))
         _month = 3;
-    else if (strcmp(month, "Apr"))
+    else if (!strcmp(month, "Apr"))
         _month = 4;
-    else if (strcmp(month, "May"))
+    else if (!strcmp(month, "May"))
         _month = 5;
-    else if (strcmp(month, "Jun"))
+    else if (!strcmp(month, "Jun"))
         _month = 6;
-    else if (strcmp(month, "Jul"))
+    else if (!strcmp(month, "Jul"))
         _month = 7;
-    else if (strcmp(month, "Aug"))
+    else if (!strcmp(month, "Aug"))
         _month = 8;
-    else if (strcmp(month, "Sep"))
+    else if (!strcmp(month, "Sep"))
         _month = 9;
-    else if (strcmp(month, "Oct"))
+    else if (!strcmp(month, "Oct"))
         _month = 10;
-    else if (strcmp(month, "Nov"))
+    else if (!strcmp(month, "Nov"))
         _month = 11;
-    else if (strcmp(month, "Dec"))
+    else if (!strcmp(month, "Dec"))
         _month = 12;
 
 /*--------------------------Year----------------------------*/
@@ -353,6 +354,40 @@ void RTC::getWeekDayStr(char* output) const {
     output[i] = '\0';
 }
 
+uint32_t RTC::dateToDays(uint32_t year, uint8_t month, uint8_t day) {
+    year = year - 2000;
+    uint32_t days = day;
+
+    for (uint8_t i = 1; i < month; i++) {
+        days += pgm_read_byte(daysArray + i - 1);
+    }
+
+    if ((month == 2) && (year % 4 == 0)) {
+        days++;
+    }
+
+    return days + 365 * year + (year + 3) / 4 - 1;
+}
+
+uint32_t RTC::daysToSeconds(uint32_t days, uint8_t hours, uint8_t minutes, uint8_t seconds) {
+    return ((days * 24L + hours) * 60 + minutes) * 60 + seconds;
+}
+
+uint32_t RTC::getUnixTime() {
+    uint32_t unixTime;
+    unixTime = daysToSeconds(dateToDays(_year, _month, _day), _hour, _minute, _second);
+    unixTime += SECONDS_FROM_1970_TO_2000;
+    return unixTime;
+}
+
+uint8_t RTC::DecToBcd(uint8_t val) {
+    return (val / 10 * 16) + (val % 10);
+}
+
+uint8_t RTC::BcdToDec(uint8_t val) {
+    return (val / 16 * 10) + (val % 16);
+}
+
 void RTC::parsingTime() {
     if (_hour > 23)
         _hour = 0;
@@ -368,12 +403,4 @@ void RTC::parsingTime() {
         _second = 0;
     else if (_second < 0)
         _second = 59;
-}
-
-uint8_t RTC::DecToBcd(uint8_t val) {
-    return (val / 10 * 16) + (val % 10);
-}
-
-uint8_t RTC::BcdToDec(uint8_t val) {
-    return (val / 16 * 10) + (val % 16);
 }
