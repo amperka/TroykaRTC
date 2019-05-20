@@ -20,11 +20,20 @@ void setup() {
 }
 
 void loop() {
+  // переменные для времени, даты и дня недели
+  String timeStr;
+  String dateStr;
+  String weekDayStr;
   // запрашиваем данные с часов
   clock.read();
-  // выводим в serial порт результат в формате unixtime
-  // количество прошедших секунд с 1 января 1970 года
-  Serial.println(clock.getUnixTime());
+  // получаем текущее время, дату и день недели в переменные
+  clock.getTimeStamp(timeStr, dateStr, weekDayStr);
+  // выводим в serial порт текущее время, дату и день недели
+  Serial.print(timeStr);
+  Serial.print("\t");
+  Serial.print(dateStr);
+  Serial.print("\t");
+  Serial.println(weekDayStr);
   // ждём одну секунду
   delay(1000);
 }

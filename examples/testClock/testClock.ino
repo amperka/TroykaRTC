@@ -1,7 +1,7 @@
 // библиотека для работы I²C
 #include <Wire.h>
 // библиотека для работы с часами реального времени
-#include "TroykaRTC.h"
+#include <TroykaRTC.h>
 
 // размер массива для времени
 #define LEN_TIME 12
@@ -20,8 +20,7 @@ char date[LEN_DATE];
 // массив для хранения текущего дня недели
 char weekDay[LEN_DOW];
   
-void setup()
-{
+void setup() {
   // открываем последовательный порт
   Serial.begin(9600);
   // инициализация часов
@@ -34,11 +33,10 @@ void setup()
   // закоментируйте оба метода clock.set();
 }
 
-void loop()
-{
+void loop() {
   // запрашиваем данные с часов
   clock.read();
-  // сохраняем текущее время, дату и день недели в переменные
+  // получаем текущее время, дату и день недели в переменные
   clock.getTimeStamp(time, date, weekDay);
   // выводим в serial порт текущее время, дату и день недели
   Serial.print(time);
