@@ -1,14 +1,14 @@
 /****************************************************************************/
-//  Function: Header file for troyka-RTC
+//  Function: Header file for TroykaRTC
 //  Hardware: DS1307
-//  Arduino IDE: Arduino-1.8.2
+//  Arduino IDE: Arduino-1.8.9
 //  Author:  Igor Dementiev
-//  Date:    Sep 10,2015
-//  Version: v1.1
+//  Date:    May 10,2019
+//  Version: v1.2.0
 //  by www.amperka.ru
 /****************************************************************************/
-#ifndef TROYKARTC_H_
-#define TROYKARTC_H_
+#ifndef TROYKA_RTC_H_
+#define TROYKA_RTC_H_
 
 #include <Arduino.h>
 
@@ -41,10 +41,14 @@ public:
     void setMonth(uint8_t month);
     void setYear(uint8_t year);
     void setWeekDay(uint8_t weekDay);
+    void getTimeStamp(String& timeStr, String& dateStr, String& weekDayStr) const;
     void getTimeStamp(char* time, char* date, char* weekDay) const;
-    void getTimeStr(char* output) const;
-    void getDateStr(char* output) const;
-    void getWeekDayStr(char* output) const;
+    void getTime(String& timeStr) const;
+    void getTime(char* time) const;
+    void getDate(String& dateStr) const;
+    void getDate(char* date) const;
+    void getWeekDay(String& weekDayStr) const;
+    void getWeekDay(char* weekDay) const;
     uint8_t getSecond() const { return _second; }
     uint8_t getMinute() const { return _minute; }
     uint8_t getHour() const { return _hour; }
@@ -69,4 +73,4 @@ private:
     uint16_t _year;
 };
 
-#endif  // TROYKARTC_H_
+#endif  // TROYKA_RTC_H_

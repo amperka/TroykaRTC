@@ -1,10 +1,10 @@
 /****************************************************************************/
-//  Function: Cpp file for troyka-RTC
+//  Function: Cpp file for TroykaRTC
 //  Hardware: DS1307
-//  Arduino IDE: Arduino-1.8.2
+//  Arduino IDE: Arduino-1.8.9
 //  Author:  Igor Dementiev
-//  Date:    Sep 10,2015
-//  Version: v1.1
+//  Date:    May 10,2019
+//  Version: v1.2.0
 //  by www.amperka.ru
 /****************************************************************************/
 
@@ -250,13 +250,25 @@ void RTC::setWeekDay(uint8_t weekDay) {
     Wire.endTransmission();
 }
 
-void RTC::getTimeStamp(char* time, char* date, char* weekDay) const {
-    getTimeStr(time);
-    getDateStr(date);
-    getWeekDayStr(weekDay);
+void RTC::getTimeStamp(String& timeStr, String& dateStr, String& weekDayStr) const {
+    getTime(timeStr);
+    getDate(dateStr);
+    getWeekDay(weekDayStr);
 }
 
-void RTC::getTimeStr(char* output) const {
+void RTC::getTimeStamp(char* time, char* date, char* weekDay) const {
+    getTime(time);
+    getDate(date);
+    getWeekDay(weekDay);
+}
+
+void RTC::getTime(String& timeStr) const {
+    char time[12];
+    getTime(time);
+    timeStr = String(time);
+}
+
+void RTC::getTime(char* time) const {
     char buff[8];
     if (_hour < 10)
         buff[0] = '0';
@@ -280,12 +292,18 @@ void RTC::getTimeStr(char* output) const {
     buff[8] = '\0';
     int i;
     for (i = 0; i < 8; i++ ) {
-        output[i] = buff[i];
+        time[i] = buff[i];
     }
-    output[i] = '\0';
+    time[i] = '\0';
 }
 
-void RTC::getDateStr(char* output) const {
+void RTC::getDate(String& dateStr) const {
+    char date[12];
+    getDate(date);
+    dateStr = String(date);
+}
+
+void RTC::getDate(char* date) const {
     char buff[10];
     if (_day < 10)
         buff[0] = '0';
@@ -308,12 +326,18 @@ void RTC::getDateStr(char* output) const {
 
     int i;
     for (i = 0; i < 10; i++ ) {
-        output[i] = buff[i];
+        date[i] = buff[i];
     }
-    output[i] = '\0';
+    date[i] = '\0';
 }
 
-void RTC::getWeekDayStr(char* output) const {
+void RTC::getWeekDay(String& weekDayStr) const {
+    char weekDay[12];
+    getWeekDay(weekDay);
+    weekDayStr = String(weekDay);
+}
+
+void RTC::getWeekDay(char* weekDay) const {
     char buff[10];
     switch (_weekDay) {
         case 1: {
@@ -349,9 +373,9 @@ void RTC::getWeekDayStr(char* output) const {
     int s = strlen(buff);
     int i;
     for (i = 0; i < s; i++ ) {
-        output[i] = buff[i];
+        weekDay[i] = buff[i];
     }
-    output[i] = '\0';
+    weekDay[i] = '\0';
 }
 
 uint32_t RTC::dateToDays(uint32_t year, uint8_t month, uint8_t day) {

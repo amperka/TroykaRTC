@@ -1,0 +1,38 @@
+#######################################
+# Syntax Coloring Map TroykaI2CHub
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+RTC 		KEYWORD1
+TroykaRTC 	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin 			KEYWORD2
+start 			KEYWORD2
+stop 			KEYWORD2
+set 			KEYWORD2
+setHour 		KEYWORD2
+setMinute 		KEYWORD2
+setSecond 		KEYWORD2
+setDay 			KEYWORD2
+setMonth 		KEYWORD2
+setYear 		KEYWORD2
+setWeekDay 		KEYWORD2
+getTimeStamp 	KEYWORD2
+getTime 		KEYWORD2
+getDate 		KEYWORD2
+getWeekDay 		KEYWORD2
+getSecond 		KEYWORD2
+getMinute 		KEYWORD2
+getHour 		KEYWORD2
+getWeekDay 		KEYWORD2
+getDay 			KEYWORD2
+getMonth 		KEYWORD2
+getYear 		KEYWORD2
+getUnixTime 	KEYWORD2
