@@ -97,7 +97,10 @@ void RTC::set(const char* compileTimeStamp) {
         _weekDay = 7;
 
 /*--------------------------Day----------------------------*/
-    _day = ((compileTimeStamp[8] - '0') * 10 + (compileTimeStamp[9] - '0'));
+    if (compileTimeStamp[8] != ' ')
+        _day = ((compileTimeStamp[8] - '0') * 10 + (compileTimeStamp[9] - '0'));
+    else
+        _day = (compileTimeStamp[9] - '0');
 
 /*--------------------------Month---------------------------*/
     char month[4];
