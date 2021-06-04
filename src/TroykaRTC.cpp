@@ -160,8 +160,8 @@ void RTC::set(const char* compileTimeStamp) {
 }
 
 // write the time that manually
-void RTC::set(uint8_t hour, uint8_t minute, uint8_t second, uint16_t day,
-        uint8_t month, uint8_t year, uint8_t weekDay) {
+void RTC::set(uint8_t hour, uint8_t minute, uint8_t second, uint8_t day,
+        uint8_t month, uint16_t year, uint8_t weekDay) {
     _hour = hour;
     _minute = minute;
     _second = second;
