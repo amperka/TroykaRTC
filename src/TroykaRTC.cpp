@@ -250,6 +250,30 @@ void RTC::setWeekDay(uint8_t weekDay) {
     Wire.endTransmission();
 }
 
+// Set RAM register (From 0x08 to 0x3F) byte value
+void RTC::setRAMData(uint8_t reg, uint8_t data) {
+    if (reg < 0x08 || reg > 0x3F)
+        return;
+
+    Wire.beginTransmission(DS1307_I2C_ADDRESS);
+    Wire.write(reg);
+    Wire.write(data);
+    Wire.endTransmission();
+}
+
+// Get RAM register (From 0x08 to 0x3F) byte value
+uint8_t RTC::getRAMData(uint8_t reg) {
+    if (reg < 0x08 || reg > 0x3F)
+        return 0;
+
+    Wire.beginTransmission(DS1307_I2C_ADDRESS);
+    Wire.write(reg);
+    Wire.endTransmission();
+    Wire.requestFrom(DS1307_I2C_ADDRESS, 1);
+
+    return Wire.read();
+}
+
 void RTC::getTimeStamp(String& timeStr, String& dateStr, String& weekDayStr) const {
     getTime(timeStr);
     getDate(dateStr);

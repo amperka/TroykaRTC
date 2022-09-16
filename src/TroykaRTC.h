@@ -58,6 +58,9 @@ public:
     uint16_t getYear() const { return _year; }
     uint32_t getUnixTime();
 
+    void setRAMData(uint8_t reg, uint8_t data);
+    uint8_t getRAMData(uint8_t reg);
+
 private:
 	void parsingTime();
 	uint32_t dateToDays(uint32_t year, uint8_t month, uint8_t day);
