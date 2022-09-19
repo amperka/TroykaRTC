@@ -36,3 +36,5 @@ getDay 			KEYWORD2
 getMonth 		KEYWORD2
 getYear 		KEYWORD2
 getUnixTime 	KEYWORD2
+getRAMData      KEYWORD2
+setRAMData      KEYWORD2
